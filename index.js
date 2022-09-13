@@ -24,6 +24,13 @@ let persons = [
   }
 ]
 
+const morgan = require('morgan')
+app.use(morgan('tiny'))
+
+app.get('/', function (req, res) {
+  console.log(req) 
+})
+
 app.use(express.json())
 
 app.get('/api/persons', (req, res) => {
