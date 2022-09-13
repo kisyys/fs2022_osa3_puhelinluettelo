@@ -25,11 +25,17 @@ let persons = [
 ]
 
 const morgan = require('morgan')
-app.use(morgan('tiny'))
 
-app.get('/', function (req, res) {
-  console.log(req) 
+morgan.token('body', req => {
+  if (req.method === "POST") {  
+    return JSON.stringify(req.body)
+  } else {
+    return " "
+  } 
 })
+
+//app.use(morgan('tiny'))
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 app.use(express.json())
 
@@ -94,6 +100,7 @@ app.post('/api/persons', (request, response) => {
 
   persons = persons.concat(person)
   response.json(person)
+
 })
 
 const PORT = 3001
